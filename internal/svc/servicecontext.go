@@ -1,11 +1,10 @@
 package svc
 
 import (
-	"WMSS/user/api/internal/config"
-	"WMSS/user/api/internal/middleware"
-	"WMSS/user/api/internal/model"
-	"WMSS/user/api/internal/repository"
-
+	"github.com/Nozomi9967/wmss-user-api/internal/config"
+	"github.com/Nozomi9967/wmss-user-api/internal/middleware"
+	"github.com/Nozomi9967/wmss-user-api/internal/model"
+	"github.com/Nozomi9967/wmss-user-api/internal/repository"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -13,16 +12,16 @@ import (
 )
 
 type ServiceContext struct {
-	Config         config.Config
-	DB             *gorm.DB
-	AuthMiddleware rest.Middleware
+	Config         config.Config   `json:"config"`
+	DB             *gorm.DB        `json:"db,omitempty"`
+	AuthMiddleware rest.Middleware `json:"auth_middleware,omitempty"`
 
-	SysUserModel           model.SysUserModel
-	SysRoleModel           model.SysRoleModel
-	SysPermissionModel     model.SysPermissionModel
-	SysRolePermissionModel model.SysRolePermissionModel
-	RoleRepository         repository.RoleRepository
-	PermissionRepository   repository.PermissionRepository
+	SysUserModel           model.SysUserModel              `json:"sys_user_model,omitempty"`
+	SysRoleModel           model.SysRoleModel              `json:"sys_role_model,omitempty"`
+	SysPermissionModel     model.SysPermissionModel        `json:"sys_permission_model,omitempty"`
+	SysRolePermissionModel model.SysRolePermissionModel    `json:"sys_role_permission_model,omitempty"`
+	RoleRepository         repository.RoleRepository       `json:"role_repository"`
+	PermissionRepository   repository.PermissionRepository `json:"permission_repository"`
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {

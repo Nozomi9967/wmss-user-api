@@ -6,9 +6,6 @@ package user
 import (
 	"net/http"
 
-	"WMSS/user/api/internal/logic/user"
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

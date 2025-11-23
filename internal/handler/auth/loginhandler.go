@@ -6,9 +6,6 @@ package auth
 import (
 	"net/http"
 
-	"WMSS/user/api/internal/logic/auth"
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

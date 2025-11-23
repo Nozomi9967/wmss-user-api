@@ -4,9 +4,6 @@ import (
 	"WMSS/user/api/internal/model"
 	"context"
 
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 

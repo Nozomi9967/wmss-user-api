@@ -4,10 +4,6 @@
 package permission
 
 import (
-	"WMSS/user/api/internal/common"
-	"WMSS/user/api/internal/model"
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
 	"context"
 	"database/sql"
 	"fmt"

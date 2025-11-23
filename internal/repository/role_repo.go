@@ -2,12 +2,12 @@
 package repository
 
 import (
-	"WMSS/user/api/internal/model"
 	"context"
 	"fmt"
 	"strings"
 	"time"
 
+	"github.com/Nozomi9967/wmss-user-api/internal/model"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 

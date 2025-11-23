@@ -6,12 +6,7 @@ package handler
 import (
 	"net/http"
 
-	auth "WMSS/user/api/internal/handler/auth"
-	permission "WMSS/user/api/internal/handler/permission"
-	role "WMSS/user/api/internal/handler/role"
-	user "WMSS/user/api/internal/handler/user"
-	"WMSS/user/api/internal/middleware" // 导入你写的自定义 JWT 中间件包
-	"WMSS/user/api/internal/svc"
+
 
 	"github.com/zeromicro/go-zero/rest"
 )

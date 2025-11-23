@@ -4,13 +4,12 @@
 package auth
 
 import (
-	"WMSS/user/api/internal/common"
-	"WMSS/user/api/internal/model"
 	"context"
 	"time"
 
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
+	"github.com/Nozomi9967/wmss-user-api/common"
+	"github.com/Nozomi9967/wmss-user-api/internal/svc"
+	"github.com/Nozomi9967/wmss-user-api/internal/types"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/zeromicro/go-zero/core/logx"
 )

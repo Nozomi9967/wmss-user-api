@@ -6,9 +6,8 @@ package user
 import (
 	"context"
 
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
-
+	"github.com/Nozomi9967/wmss-user-api/internal/svc"
+	"github.com/Nozomi9967/wmss-user-api/internal/types"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 

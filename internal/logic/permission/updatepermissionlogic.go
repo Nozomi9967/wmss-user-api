@@ -4,14 +4,6 @@
 package permission
 
 import (
-	"WMSS/user/api/internal/common"
-	"WMSS/user/api/internal/model"
-	"context"
-	"database/sql"
-
-	"WMSS/user/api/internal/svc"
-	"WMSS/user/api/internal/types"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
