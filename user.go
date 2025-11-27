@@ -4,14 +4,12 @@
 package main
 
 import (
-	"WMSS/user/api/internal/middleware"
 	"flag"
 	"fmt"
 
-	"WMSS/user/api/internal/config"
-	"WMSS/user/api/internal/handler"
-	"WMSS/user/api/internal/svc"
-
+	"github.com/Nozomi9967/wmss-user-api/internal/config"
+	"github.com/Nozomi9967/wmss-user-api/internal/handler"
+	"github.com/Nozomi9967/wmss-user-api/internal/svc"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -27,7 +25,7 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
-	server.Use(middleware.SimpleRecovery())
+	//server.Use(middleware.SimpleRecovery())
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)

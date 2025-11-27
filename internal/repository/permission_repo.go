@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Nozomi9967/wmss-user-api/internal/model"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 

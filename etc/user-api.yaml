@@ -5,7 +5,7 @@ Port: 8889
 UserRpc:
   Endpoints:
     - 127.0.0.1:9090  # user.rpc 服务的监听地址
-  Timeout: 3000ms    # 超时时间
+  Timeout: 3000    # 超时时间
 
 Auth:
   AccessSecret: wmss1234

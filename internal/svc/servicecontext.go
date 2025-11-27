@@ -2,12 +2,11 @@ package svc
 
 import (
 	"github.com/Nozomi9967/wmss-user-api/internal/config"
-	"github.com/Nozomi9967/wmss-user-api/internal/middleware"
 	"github.com/Nozomi9967/wmss-user-api/internal/model"
 	"github.com/Nozomi9967/wmss-user-api/internal/repository"
+	"github.com/Nozomi9967/wmss-user-api/middleware"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
-	"github.com/zeromicro/go-zero/zrpc"
 	"gorm.io/gorm"
 )
 
@@ -26,7 +25,7 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.Mysql.DataSource)
-	zrpc.WithUnaryClientInterceptor(middleware.RpcMetaInterceptor())
+	//zrpc.WithUnaryClientInterceptor(middleware.RpcMetaInterceptor())
 	return &ServiceContext{
 		Config:         c,
 		AuthMiddleware: middleware.NewAuthMiddleware().Handle,

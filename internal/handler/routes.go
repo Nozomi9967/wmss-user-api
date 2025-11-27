@@ -6,8 +6,12 @@ package handler
 import (
 	"net/http"
 
-
-
+	"github.com/Nozomi9967/wmss-user-api/internal/handler/auth"
+	"github.com/Nozomi9967/wmss-user-api/internal/handler/permission"
+	"github.com/Nozomi9967/wmss-user-api/internal/handler/role"
+	"github.com/Nozomi9967/wmss-user-api/internal/handler/user"
+	"github.com/Nozomi9967/wmss-user-api/internal/svc"
+	"github.com/Nozomi9967/wmss-user-api/middleware"
 	"github.com/zeromicro/go-zero/rest"
 )
 

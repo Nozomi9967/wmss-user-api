@@ -4,13 +4,18 @@
 package permission
 
 import (
+	"context"
+
+	"github.com/Nozomi9967/wmss-user-api/common"
+	"github.com/Nozomi9967/wmss-user-api/internal/svc"
+	"github.com/Nozomi9967/wmss-user-api/internal/types"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type GetPermissionLogic struct {
-	logx.Logger
-	ctx    context.Context
-	svcCtx *svc.ServiceContext
+	logx.Logger `json:"logx_._logger,omitempty"`
+	ctx         context.Context     `json:"ctx,omitempty"`
+	svcCtx      *svc.ServiceContext `json:"svc_ctx,omitempty"`
 }
 
 // 获取权限详情
