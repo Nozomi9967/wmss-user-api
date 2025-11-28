@@ -6,6 +6,7 @@ package user
 import (
 	"context"
 
+	"github.com/Nozomi9967/wmss-user-api/common"
 	"github.com/Nozomi9967/wmss-user-api/internal/svc"
 	"github.com/Nozomi9967/wmss-user-api/internal/types"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +28,36 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 }
 
 func (l *GetUserLogic) GetUser(req *types.GetUserReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	userId := l.ctx.Value("user_id").(string)
+	var user *types.UserInfo
+	user, err = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, userId)
+	if err != nil {
+		l.Logger.Errorf("查询用户失败: %v", err)
+		return &types.Response{
+			Code: 500,
+			Msg:  "查询用户失败",
+		}, nil
+	}
+	if user.RoleID != common.SUPER_ADMIN_ROLE_ID {
+		l.Logger.Errorf("查询用户失败，权限不足: %v", err)
+		return &types.Response{
+			Code: 500,
+			Msg:  "查询用户失败，权限不足",
+		}, nil
+	}
 
-	return
+	user, err = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, req.UserID)
+	if err != nil {
+		l.Logger.Errorf("查询用户失败: %v", err)
+		return &types.Response{
+			Code: 500,
+			Msg:  "查询用户失败",
+		}, nil
+	}
+
+	return &types.Response{
+		Code: 200,
+		Msg:  "查询成功",
+		Data: user,
+	}, nil
 }

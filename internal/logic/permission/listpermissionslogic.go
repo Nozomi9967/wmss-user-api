@@ -6,7 +6,6 @@ package permission
 import (
 	"context"
 
-	"github.com/Nozomi9967/wmss-user-api/common"
 	"github.com/Nozomi9967/wmss-user-api/internal/model"
 	"github.com/Nozomi9967/wmss-user-api/internal/svc"
 	"github.com/Nozomi9967/wmss-user-api/internal/types"
@@ -30,31 +29,31 @@ func NewListPermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *L
 
 func (l *ListPermissionsLogic) ListPermissions(req *types.ListPermissionsReq) (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
-	userId, ok := l.ctx.Value("user_id").(string)
-	if !ok || userId == "" {
-		l.Logger.Errorf("登录过期：用户ID为空或类型错误")
-		return &types.Response{
-			Code: 401,
-			Msg:  "登录过期，请重新登录",
-		}, nil
-	}
-
-	user, err := l.svcCtx.SysUserModel.FindOne(l.ctx, userId)
-	if user == nil || err != nil {
-		l.Logger.Errorf("用户[%s]不存在", userId)
-		return &types.Response{
-			Code: 404,
-			Msg:  "用户不存在",
-		}, nil
-	}
-
-	if user.RoleId != common.SUPER_ADMIN_ROLE_ID {
-		l.Logger.Errorf("用户[%s]权限不足", userId)
-		return &types.Response{
-			Code: 403,
-			Msg:  "权限不足，仅超级管理员可查询权限",
-		}, nil
-	}
+	//userId, ok := l.ctx.Value("user_id").(string)
+	//if !ok || userId == "" {
+	//	l.Logger.Errorf("登录过期：用户ID为空或类型错误")
+	//	return &types.Response{
+	//		Code: 401,
+	//		Msg:  "登录过期，请重新登录",
+	//	}, nil
+	//}
+	//
+	//user, err := l.svcCtx.SysUserModel.FindOne(l.ctx, userId)
+	//if user == nil || err != nil {
+	//	l.Logger.Errorf("用户[%s]不存在", userId)
+	//	return &types.Response{
+	//		Code: 404,
+	//		Msg:  "用户不存在",
+	//	}, nil
+	//}
+	//
+	//if user.RoleId != common.SUPER_ADMIN_ROLE_ID {
+	//	l.Logger.Errorf("用户[%s]权限不足", userId)
+	//	return &types.Response{
+	//		Code: 403,
+	//		Msg:  "权限不足，仅超级管理员可查询权限",
+	//	}, nil
+	//}
 
 	// 数据库查询
 	var sysPermissions []*model.SysPermission

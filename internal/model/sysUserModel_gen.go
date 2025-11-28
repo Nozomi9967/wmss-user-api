@@ -51,6 +51,7 @@ type (
 		PasswordExpireTime time.Time      `db:"password_expire_time"` // 密码过期时间（默认90天）
 		CreateTime         time.Time      `db:"create_time"`          // 用户创建时间
 		UpdateTime         time.Time      `db:"update_time"`          // 用户信息更新时间
+		DeletedAt          *time.Time     `db:"deleted_at"` // 逻辑删除字段：NULL=未删除
 	}
 )
 
