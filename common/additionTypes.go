@@ -1,6 +1,6 @@
 package common
 
-type rawPermissionInfo struct {
+type RawPermissionInfo struct {
 	PermissionId   string `db:"permission_id"`   // 权限唯一标识
 	PermissionName string `db:"permission_name"` // 权限名称
 	PermissionCode string `db:"permission_code"` // 权限编码

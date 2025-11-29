@@ -19,8 +19,10 @@ import (
 var (
 	sysUserFieldNames          = builder.RawFieldNames(&SysUser{})
 	sysUserRows                = strings.Join(sysUserFieldNames, ",")
-	sysUserRowsExpectAutoSet   = strings.Join(stringx.Remove(sysUserFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
-	sysUserRowsWithPlaceHolder = strings.Join(stringx.Remove(sysUserFieldNames, "`user_id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
+	sysUserRowsExpectAutoSet   = strings.Join(stringx.Remove(sysUserFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`", "`deleted_at"), ",")
+	sysUserRowsWithPlaceHolder =
+		strings.Join(stringx.Remove(sysUserFieldNames, "`user_id`", "`create_at`", "`create_time`",
+			"`created_at`", "`update_at`", "`update_time`", "`updated_at`", "`deleted_at`"), "=?,") + "=?"
 )
 
 type (
@@ -104,6 +106,7 @@ func (m *defaultSysUserModel) Insert(ctx context.Context, data *SysUser) (sql.Re
 
 func (m *defaultSysUserModel) Update(ctx context.Context, newData *SysUser) error {
 	query := fmt.Sprintf("update %s set %s where `user_id` = ?", m.table, sysUserRowsWithPlaceHolder)
+	fmt.Println(sysUserRowsWithPlaceHolder)
 	_, err := m.conn.ExecCtx(ctx, query, newData.UserName, newData.RealName, newData.Password, newData.RoleId, newData.Department, newData.Position, newData.ContactPhone, newData.UserStatus, newData.LastLoginTime, newData.PasswordExpireTime, newData.UserId)
 	return err
 }

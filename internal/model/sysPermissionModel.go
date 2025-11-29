@@ -3,7 +3,7 @@ package model
 import (
 	"context"
 
-	"github.com/Nozomi9967/wmss-user-api/internal/types"
+	"github.com/Nozomi9967/wmss-user-api/common"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -15,7 +15,7 @@ type (
 	SysPermissionModel interface {
 		sysPermissionModel
 		withSession(session sqlx.Session) SysPermissionModel
-		SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]types.PermissionInfo, error)
+		SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]common.RawPermissionInfo, error)
 	}
 
 	customSysPermissionModel struct {
@@ -34,8 +34,8 @@ func (m *customSysPermissionModel) withSession(session sqlx.Session) SysPermissi
 	return NewSysPermissionModel(sqlx.NewSqlConnFromSession(session))
 }
 
-func (m *customSysPermissionModel) SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]types.PermissionInfo, error) {
-	var dbpermissionInfo []additionTypes
+func (m *customSysPermissionModel) SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]common.RawPermissionInfo, error) {
+	var rawPermissionInfo []common.RawPermissionInfo
 
 	// SQL 逻辑解析：
 	// 1. 从权限表 (p) 出发，获取权限详情。
@@ -63,13 +63,13 @@ func (m *customSysPermissionModel) SelectPermissionsInfoByUserId(ctx context.Con
 	`
 
 	// 执行查询
-	err := m.conn.QueryRowsCtx(ctx, &dbpermissionInfo, query, userId)
+	err := m.conn.QueryRowsCtx(ctx, &rawPermissionInfo, query, userId)
 	switch err {
 	case nil:
-		return &resp, nil
+		return &rawPermissionInfo, nil
 	case sqlx.ErrNotFound:
 		// 如果用户没有分配角色，或者角色没有权限，返回空切片而不是错误，视业务需求而定
-		return &[]types.PermissionInfo{}, nil
+		return &[]common.RawPermissionInfo{}, nil
 	default:
 		return nil, err
 	}

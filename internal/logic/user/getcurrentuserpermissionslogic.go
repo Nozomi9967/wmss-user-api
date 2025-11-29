@@ -47,7 +47,7 @@ func (l *GetCurrentUserPermissionsLogic) GetCurrentUserPermissions() (resp *type
 		}, nil
 	}
 
-	var permissionsInfo *[]types.PermissionInfo
+	var permissionsInfo *[]common.RawPermissionInfo
 	permissionsInfo, err = l.svcCtx.SysPermissionModel.SelectPermissionsInfoByUserId(l.ctx, userId)
 	if err != nil {
 		l.Logger.Errorf("查询用户权限失败: %v", err)
