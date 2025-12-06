@@ -20,7 +20,7 @@ var (
 	sysPermissionFieldNames          = builder.RawFieldNames(&SysPermission{})
 	sysPermissionRows                = strings.Join(sysPermissionFieldNames, ",")
 	sysPermissionRowsExpectAutoSet   = strings.Join(stringx.Remove(sysPermissionFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`","`deleted_at`"), ",")
-	sysPermissionRowsWithPlaceHolder = strings.Join(stringx.Remove(sysPermissionFieldNames, "`permission_id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`", "`deleted` null)"), "=?,") + "=?"
+	sysPermissionRowsWithPlaceHolder = strings.Join(stringx.Remove(sysPermissionFieldNames, "`permission_id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`", "`deleted_at`"), "=?,") + "=?"
 )
 
 type (
