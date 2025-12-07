@@ -2,6 +2,7 @@ package model
 
 import (
 	"context" // 新增：用于上下文
+	"fmt"
 	"strings"
 	"time" // 新增：处理时间字段
 
@@ -107,34 +108,51 @@ func (m *customSysUserModel) SoftDelete(ctx context.Context, userId string) erro
 
 func (m *customSysUserModel) SelectOneDetail(ctx context.Context, userId string) (sysUser *types.UserInfo, err error) {
 	sql := `
-	SELECT sys_user.*,sys_role.role_name from sys_user
-	         left join sys_role on sys_user.role_id = sys_role.role_id
-	         where sys_user.deleted_at IS NULL AND user_id = ?
-	`
+    SELECT sys_user.*, sys_role.role_name 
+    FROM sys_user
+    LEFT JOIN sys_role ON sys_user.role_id = sys_role.role_id
+    WHERE sys_user.deleted_at IS NULL AND user_id = ?
+    `
+
+	// 方案1：直接声明结构体变量（推荐）
 	var userDetail UserDetail
 	err = m.conn.QueryRowCtx(ctx, &userDetail, sql, userId)
 	if err != nil {
+		if err == sqlx.ErrNotFound {
+			fmt.Println("userDetail not found, userId:", userId)
+			return nil, nil
+		}
 		return nil, err
 	}
-	var userInfo *types.UserInfo
-	userInfo = &types.UserInfo{
+
+	userInfo := &types.UserInfo{
 		UserID:             userDetail.UserId,
 		UserName:           userDetail.UserName,
 		RealName:           userDetail.RealName,
 		RoleID:             userDetail.RoleId,
 		RoleName:           userDetail.RoleName,
-		Department:         *userDetail.Department,
-		Position:           *userDetail.Position,
-		ContactPhone:       *userDetail.ContactPhone,
 		UserStatus:         userDetail.UserStatus,
-		LastLoginTime:      userDetail.LastLoginTime.Format("2006-01-02 15:04:05"),
 		PasswordExpireTime: userDetail.PasswordExpireTime.Format("2006-01-02 15:04:05"),
 		CreateTime:         userDetail.CreateTime.Format("2006-01-02 15:04:05"),
 		UpdateTime:         userDetail.UpdateTime.Format("2006-01-02 15:04:05"),
 	}
+
+	// 处理可能为 nil 的指针字段
+	if userDetail.Department != nil {
+		userInfo.Department = *userDetail.Department
+	}
+	if userDetail.Position != nil {
+		userInfo.Position = *userDetail.Position
+	}
+	if userDetail.ContactPhone != nil {
+		userInfo.ContactPhone = *userDetail.ContactPhone
+	}
+	if userDetail.LastLoginTime != nil {
+		userInfo.LastLoginTime = userDetail.LastLoginTime.Format("2006-01-02 15:04:05")
+	}
+
 	return userInfo, nil
 }
-
 func (m *customSysUserModel) SelectBatchDetail(ctx context.Context, req *types.ListUsersReq) (*[]types.UserInfo, error) {
 	// 构建基础SQL
 	sqlBuilder := strings.Builder{}

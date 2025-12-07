@@ -1,6 +1,11 @@
 package model
 
-import "github.com/zeromicro/go-zero/core/stores/sqlx"
+import (
+	"context"
+	"fmt"
+
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+)
 
 var _ SysRoleModel = (*customSysRoleModel)(nil)
 
@@ -10,6 +15,7 @@ type (
 	SysRoleModel interface {
 		sysRoleModel
 		withSession(session sqlx.Session) SysRoleModel
+		FindOneLogical(ctx context.Context, roleId string) (*SysRole, error)
 	}
 
 	customSysRoleModel struct {
@@ -26,4 +32,11 @@ func NewSysRoleModel(conn sqlx.SqlConn) SysRoleModel {
 
 func (m *customSysRoleModel) withSession(session sqlx.Session) SysRoleModel {
 	return NewSysRoleModel(sqlx.NewSqlConnFromSession(session))
+}
+
+func (m *customSysRoleModel) FindOneLogical(ctx context.Context, roleId string) (*SysRole, error) {
+	query := fmt.Sprintf("select %s from %s where `role_id` = ? and `deleted_at` is null limit 1", sysRoleRows, m.table)
+	var resp *SysRole
+	_ = m.conn.QueryRowCtx(ctx, &resp, query, roleId)
+	return resp, nil
 }

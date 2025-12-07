@@ -55,6 +55,24 @@ type (
 		UpdateTime         time.Time      `db:"update_time"`          // 用户信息更新时间
 		DeletedAt          *time.Time     `db:"deleted_at"` // 逻辑删除字段：NULL=未删除
 	}
+
+	SysUserInfo struct {
+		UserId             string         `db:"user_id"`              // 系统用户唯一标识，操作员ID
+		UserName           string         `db:"user_name"`            // 用户名（登录账号）
+		RoleName           string         `db:"role_name"`
+		RealName           string         `db:"real_name"`            // 真实姓名
+		Password           string         `db:"password"`             // 密码，加密存储（如MD5+盐值）
+		RoleId             string         `db:"role_id"`              // 角色ID，关联角色表
+		Department         sql.NullString `db:"department"`           // 所属部门，如“理财销售部”“运营部”
+		Position           sql.NullString `db:"position"`             // 职位，如“柜台操作员”“运营专员”
+		ContactPhone       sql.NullString `db:"contact_phone"`        // 联系电话
+		UserStatus         string         `db:"user_status"`          // 用户状态，如“启用”“禁用”
+		LastLoginTime      sql.NullTime   `db:"last_login_time"`      // 最后登录时间
+		PasswordExpireTime time.Time      `db:"password_expire_time"` // 密码过期时间（默认90天）
+		CreateTime         time.Time      `db:"create_time"`          // 用户创建时间
+		UpdateTime         time.Time      `db:"update_time"`          // 用户信息更新时间
+		DeletedAt          *time.Time     `db:"deleted_at"` // 逻辑删除字段：NULL=未删除
+	}
 )
 
 func newSysUserModel(conn sqlx.SqlConn) *defaultSysUserModel {

@@ -105,7 +105,7 @@ func (m *defaultSysPermissionModel) FindPermissionsByIds(ctx context.Context, pe
 	placeholderStr := strings.Join(placeholders, ",")
 
 	query := fmt.Sprintf(
-		"select %s from %s where `permission_id` in (%s)",
+		"select %s from %s where `permission_id` in (%s) and `deleted_at` IS NULL",
 		sysPermissionRows, m.table, placeholderStr,
 	)
 

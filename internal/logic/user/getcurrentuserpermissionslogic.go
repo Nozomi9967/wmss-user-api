@@ -39,6 +39,13 @@ func (l *GetCurrentUserPermissionsLogic) GetCurrentUserPermissions() (resp *type
 			Msg:  "查询用户权限失败",
 		}, nil
 	}
+	if user == nil {
+		return &types.Response{
+			Code: 200,
+			Msg:  "查询失败，暂无数据",
+			Data: nil,
+		}, nil
+	}
 	if user.RoleID != common.SUPER_ADMIN_ROLE_ID {
 		l.Logger.Errorf("查询用户权限失败，权限不足: %v", err)
 		return &types.Response{

@@ -2,8 +2,10 @@ package model
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Nozomi9967/wmss-user-api/common"
+	"github.com/Nozomi9967/wmss-user-api/model"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -16,6 +18,7 @@ type (
 		sysPermissionModel
 		withSession(session sqlx.Session) SysPermissionModel
 		SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]common.RawPermissionInfo, error)
+		FindOneLogical(ctx context.Context, permissionId string) (*model.SysPermission, error)
 	}
 
 	customSysPermissionModel struct {
@@ -32,6 +35,13 @@ func NewSysPermissionModel(conn sqlx.SqlConn) SysPermissionModel {
 
 func (m *customSysPermissionModel) withSession(session sqlx.Session) SysPermissionModel {
 	return NewSysPermissionModel(sqlx.NewSqlConnFromSession(session))
+}
+
+func (m *customSysPermissionModel) FindOneLogical(ctx context.Context, permissionId string) (*model.SysPermission, error) {
+	query := fmt.Sprintf("select %s from %s where `permission_id` = ? and `deleted_at` is null limit 1", sysPermissionRows, m.table)
+	var resp *model.SysPermission
+	_ = m.conn.QueryRowCtx(ctx, &resp, query, permissionId)
+	return resp, nil
 }
 
 func (m *customSysPermissionModel) SelectPermissionsInfoByUserId(ctx context.Context, userId string) (*[]common.RawPermissionInfo, error) {

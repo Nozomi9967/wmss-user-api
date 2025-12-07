@@ -30,13 +30,20 @@ func NewGetRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRoleLo
 func (l *GetRoleLogic) GetRole(req *types.GetRoleReq) (resp *types.Response, err error) {
 
 	var sysRole *model.SysRole
-	sysRole, err = l.svcCtx.SysRoleModel.FindOne(l.ctx, req.RoleID)
+	sysRole, err = l.svcCtx.SysRoleModel.FindOneLogical(l.ctx, req.RoleID)
 	if err != nil {
 		l.Logger.Errorf("查询角色失败: %v", err)
 		return &types.Response{
 			Code: 500,
 			Msg:  "查询角色失败",
 		}, err
+	}
+	if sysRole == nil {
+		return &types.Response{
+			Code: 200,
+			Msg:  "查询失败，暂无数据",
+			Data: nil,
+		}, nil
 	}
 	var sysPermissionsIds []string
 	sysPermissionsIds, err = l.svcCtx.SysRolePermissionModel.FindPermissionsByRoleId(l.ctx, req.RoleID)

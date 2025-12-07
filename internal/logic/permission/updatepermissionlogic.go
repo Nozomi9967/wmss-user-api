@@ -6,6 +6,7 @@ package permission
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/Nozomi9967/wmss-user-api/common"
 	"github.com/Nozomi9967/wmss-user-api/internal/model"
@@ -72,8 +73,9 @@ func (l *UpdatePermissionLogic) UpdatePermission(req *types.UpdatePermissionReq)
 	sysPermission.PermissionCode = req.PermissionCode
 	sysPermission.ParentPermissionId = sql.NullString{
 		String: req.ParentPermissionID,
-		Valid:  false,
+		Valid:  true,
 	}
+	fmt.Println(sysPermission)
 	err = l.svcCtx.SysPermissionModel.Update(l.ctx, sysPermission)
 	if err != nil {
 		l.Logger.Errorf("权限修改失败，%v", err)

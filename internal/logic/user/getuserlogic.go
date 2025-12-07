@@ -30,14 +30,16 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 func (l *GetUserLogic) GetUser(req *types.GetUserReq) (resp *types.Response, err error) {
 	userId := l.ctx.Value("user_id").(string)
 	var user *types.UserInfo
-	user, err = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, userId)
-	if err != nil {
-		l.Logger.Errorf("查询用户失败: %v", err)
+	user, _ = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, userId)
+
+	if user == nil {
 		return &types.Response{
-			Code: 500,
-			Msg:  "查询用户失败",
+			Code: 200,
+			Msg:  "查询失败，当前登录用户不存在",
+			Data: nil,
 		}, nil
 	}
+
 	if user.RoleID != common.SUPER_ADMIN_ROLE_ID {
 		l.Logger.Errorf("查询用户失败，权限不足: %v", err)
 		return &types.Response{
@@ -46,12 +48,13 @@ func (l *GetUserLogic) GetUser(req *types.GetUserReq) (resp *types.Response, err
 		}, nil
 	}
 
-	user, err = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, req.UserID)
-	if err != nil {
-		l.Logger.Errorf("查询用户失败: %v", err)
+	user, _ = l.svcCtx.SysUserModel.SelectOneDetail(l.ctx, req.UserID)
+
+	if user == nil {
 		return &types.Response{
-			Code: 500,
-			Msg:  "查询用户失败",
+			Code: 200,
+			Msg:  "查询失败，暂无数据",
+			Data: nil,
 		}, nil
 	}
 

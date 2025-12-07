@@ -55,14 +55,16 @@ func (l *GetPermissionLogic) GetPermission(req *types.GetPermissionReq) (resp *t
 		}, nil
 	}
 
-	permission, err := l.svcCtx.SysPermissionModel.FindOne(l.ctx, req.PermissionID)
-	if err != nil {
-		l.Logger.Errorf("查询权限信息失败，%v", err)
+	permission, _ := l.svcCtx.SysPermissionModel.FindOneLogical(l.ctx, req.PermissionID)
+
+	if permission == nil {
 		return &types.Response{
 			Code: 200,
-			Msg:  "查询失败",
+			Msg:  "查询失败，暂无数据",
+			Data: nil,
 		}, nil
 	}
+
 	var permissonInfo types.PermissionInfo
 	permissonInfo = types.PermissionInfo{
 		PermissionID:       permission.PermissionId,
